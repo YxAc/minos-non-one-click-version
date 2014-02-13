@@ -1,0 +1,52 @@
+{% extends "monitor/hbase_base.html" %}
+{% load extended_filter %}
+
+{% block hbase_content %}
+    <h4>SummaryMetric&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/monitor/cluster/operation/{{ cluster.id }}">OperationMetric</a></h4>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+        </thead>
+        <tbody>
+            <tr>
+                <td>cluster name</td>
+                <td>{{ cluster.name}}</a></td>
+            </tr>
+            <tr>
+                <td>hbase entry</td>
+                <td><a href="http://{{ basic_info.hbase_entry }}">{{ basic_info.hbase_entry}}</a></td>
+            </tr>
+            <tr>
+                <td>hdfs entry</td>
+                <td><a href="http://{{ basic_info.hdfs_entry }}">{{ basic_info.hdfs_entry}}</a></td>
+            </tr>
+            <tr>
+                <td>zookeeper entry</td>
+                <td><a href="/zktree/{{ basic_info.zk_entry}}/hbase/{{cluster.name}}">{{ basic_info.zk_entry}}</a></td>
+            </tr>
+            <tr>
+                <td>Read qps</td>
+                <td>{{ basic_info.read_qps}}</a></td>
+            </tr>
+            <tr>
+                <td>Write qps</td>
+                <td>{{ basic_info.write_qps}}</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="span12"><h3>QPS history</h3></div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <a href="{{tsdb_url_prefix}}/#start={{start_date}}{{ tsdb_read_query|join:"" }}&yrange=[0:]&key=out%20center%20top&wxh=1000x400" >
+                <img src="{{tsdb_url_prefix}}/q?start={{start_date}}{{ tsdb_read_query|join:""}}&yrange=[0:]&key=out%20center%20top&wxh={{6|pic_width}}x{{tsdb_read_query|pic_heigth}}&png" />
+            </a>
+        </div>
+        <div class="span6">
+            <a href="{{tsdb_url_prefix}}/#start={{start_date}}{{ tsdb_write_query|join:"" }}&yrange=[0:]&key=out%20center%20top&wxh=1000x400" >
+                <img src="{{tsdb_url_prefix}}/q?start={{start_date}}{{ tsdb_write_query|join:""}}&yrange=[0:]&key=out%20center%20top&wxh={{6|pic_width}}x{{tsdb_write_query|pic_heigth}}&png" />
+            </a>
+        </div>
+    </div>
+{% endblock %}

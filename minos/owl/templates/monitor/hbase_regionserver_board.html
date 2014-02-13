@@ -1,0 +1,40 @@
+{% extends "monitor/hbase_base.html" %}
+
+{% block hbase_content %}
+    <div class="row">
+        <div class="span12">
+            <h3>QPS distribution on region servers</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6"> {{ read_requests_dist_by_rs_chart }} </div>
+        <div class="span6"> {{ write_requests_dist_by_rs_chart }} </div>
+    </div>
+    <div class="row">
+        <div class="span12"> 
+            <h3>Region Server</h3>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>region server</th>
+                        <th>memstore size(MB)</th>
+                        <th>storefile size(MB)</th>
+                        <th>read qps</th>
+                        <th>write qps</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for regionserver in regionservers %}
+                    <tr>
+                        <td><a href="/monitor/regionserver/{{ regionserver.id }}">{{ regionserver.name }}</a></td>
+                        <td>{{ regionserver.memStoreSizeMB }}</td>
+                        <td>{{ regionserver.storefileSizeMB }}</td>
+                        <td>{{ regionserver.readRequestsCountPerSec }}</td>
+                        <td>{{ regionserver.writeRequestsCountPerSec }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
